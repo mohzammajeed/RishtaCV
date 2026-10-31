@@ -1,0 +1,20 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{db}/documents {
+    // Each CV lives at users/{uid}/cvs/{cvId}. Only the server (Cloud Functions) can mark it paid.
+    match /users/{uid}/cvs/{cv} {
+      allow read, delete: if request.auth != null && request.auth.uid == uid;
+      allow create: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.isPaid == false
+        && !request.resource.data.keys().hasAny(['paidAt','tid','method']);
+      allow update: if request.auth != null && request.auth.uid == uid
+        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['isPaid','paidAt','tid','method']);
+    }
+    // Private share links: anyone with the exact id can read ONE share; listing is blocked; only the server writes.
+    match /shares/{id} {
+      allow get: if true;
+      allow list, write: if false;
+    }
+    // payments/ and attempts/ are server-only (no client access): everything else is denied by default.
+  }
+}
