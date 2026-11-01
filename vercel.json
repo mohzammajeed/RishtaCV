@@ -1,1 +1,0 @@
-{"cleanUrls":true,"rewrites":[{"source":"/p/:id","destination":"/index.html"}],"functions":{"api/submit-receipt.js":{"maxDuration":60,"includeFiles":"node_modules/tesseract.js-core/**"}}}
