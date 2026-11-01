@@ -57,5 +57,5 @@ const name=(req.url||'').split('?')[0].split('/').filter(Boolean).pop(),fn=H[nam
 init();const h=req.headers.authorization||'';if(!h.startsWith('Bearer '))throw new HttpError(401,'Login required');
 const tok=await admin.auth().verifyIdToken(h.slice(7));
 res.status(200).json(await fn({uid:tok.uid,email:tok.email||'',token:tok},req.body||{}))}
-catch(e){console.error(e);const c=typeof e.code==='number'?e.code:String(e.code||'').startsWith('auth/')?401:500;res.status(c).json({error:e.message||'Server error'})}}
+catch(e){console.error(e);const c=e instanceof HttpError?e.code:String(e.code||'').startsWith('auth/')?401:500;res.status(c).json({error:e.message||'Server error'})}}
 module.exports=handler;module.exports.parse=parse;
