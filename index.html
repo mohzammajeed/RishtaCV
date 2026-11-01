@@ -110,7 +110,7 @@ r=(k,v)=>v?(isl?`<div><small>${L2(k)}</small><b>${V(v)}</b></div>`:`<div class="
 pic=`<div class="pic">${S.photo?`<img src="${S.photo}">`:'<div></div>'}</div>`,
 P=r('Age',S.age)+r('Gender',val('gender'))+r('Height',val('height'))+r('City',val('city'))+r('Marital Status',val('marital'))+r('Education',S.edu),
 F=r('Monthly Income',val('income'))+r('Family Type',val('family'))+r('Caste / Nationality',val('caste'))+r('Maslak',val('maslak')),
-wm=paid?'':'<div class="wm"><div class="wmi">'+'<span>RishtaCV.vercel.app</span>'.repeat(100)+'</div></div>',cl=(isl?'ci':'cp')+(u?' rtl':''),pf=b?`<div class="pf2">${b}</div>`:'';
+wm=paid?'':'<div class="wm"><div class="wmi">'+'<span>RishtaCV.vercel.app</span>'.repeat(70)+'</div></div>',cl=(isl?'ci':'cp')+(u?' rtl':''),pf=b?`<div class="pf2">${b}</div>`:'';
 return isl?`<div id="card" class="${cl}"><div class="top"><div class="bsm">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div><div class="sub">${u?'رشتہ پروفائل':'Rishta Profile'}</div></div>${pic}<div class="hd"><div class="nm2">${a}</div>${pf}</div><div class="gr">${P+F}</div><div class="ft">☾ RishtaCV</div>${wm}</div>`
 :`<div id="card" class="${cl}"><div class="sd">${pic}<div class="nm2">${a}</div>${pf}<div style="margin-top:26px;font-size:11px;opacity:.7">☾ RishtaCV</div></div><div class="mn"><div class="sec"><h4>${u?'ذاتی تفصیلات':'Personal Details'}</h4>${P}</div><div class="sec"><h4>${u?'خاندان اور پس منظر':'Family & Background'}</h4>${F}</div></div>${wm}</div>`}
 function cardOld(){const[a,b]=title(),u=S.lang=='ur',r=(k,v)=>v?`<div><span>${u?(UL[k]||k):k}</span><b>${u?(UV[v]||v):v}</b></div>`:'';
