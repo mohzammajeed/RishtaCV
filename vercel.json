@@ -1,0 +1,1 @@
+{"cleanUrls":true,"rewrites":[{"source":"/api/:path*","destination":"/api/index"},{"source":"/p/:id","destination":"/index.html"}],"functions":{"api/index.js":{"maxDuration":60}}}
