@@ -1,0 +1,24 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RishtaCV Admin</title>
+<style>body{font:15px system-ui,sans-serif;margin:0 auto;padding:14px;max-width:820px}.c{border:1px solid #ccc;border-radius:10px;padding:10px;margin:8px 0}img{max-width:100%;border-radius:8px;margin-top:8px}button{padding:9px 12px;border:0;border-radius:8px;background:#1f4d33;color:#fff;font-weight:600;margin:3px 3px 0 0}button.r{background:#a33}button.g{background:#666}input,select{padding:9px;border:1px solid #bbb;border-radius:8px;margin:3px 3px 3px 0;max-width:100%}.n{color:#666;font-size:13px}</style></head><body>
+<h2>RishtaCV Admin</h2><button id="lg">Sign in with Google</button><p class="n" id="who"></p>
+<div id="app" style="display:none">
+<h3>1. Find a user's CVs (force unlock / revoke)</h3><input id="fe" placeholder="user email" type="email"><button id="fb">Find</button><div id="fo"></div>
+<h3>2. Payment uploads</h3><input id="sq" placeholder="search email"><select id="ss"><option value="">All</option><option value="pending">Pending</option><option value="failed">Failed</option><option value="paid">Paid</option></select><button id="sb">Load</button><div id="lo"></div></div>
+<script type="module">
+const V='https://www.gstatic.com/firebasejs/10.14.1/';
+const[a,m]=await Promise.all([import(V+'firebase-app.js'),import(V+'firebase-auth.js')]);
+const au=m.getAuth(a.initializeApp({apiKey:'AIzaSyBL5gcxQVWeCUin7o9bjp7GG0Azd7kdRPU',authDomain:'rishta-cv.firebaseapp.com',projectId:'rishta-cv',storageBucket:'rishta-cv.firebasestorage.app',messagingSenderId:'321137751082',appId:'1:321137751082:web:5beb862a7e16364be73f53',measurementId:'G-K46VG87LZF'}));
+const $=id=>document.getElementById(id),esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+async function call(n,b){const t=await au.currentUser.getIdToken(),r=await fetch('/api/'+n,{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+t},body:JSON.stringify(b||{})}),x=await r.text();let j={};try{j=JSON.parse(x)}catch(e){}if(!r.ok)throw new Error(j.error||('Error '+r.status+': '+x.slice(0,120)));return j}
+const fmt=ms=>ms?new Date(ms).toLocaleString():'';
+async function load(){try{const r=(await call('admin-list',{q:$('sq').value,status:$('ss').value})).items;
+$('lo').innerHTML=r.length?r.map(x=>`<div class="c"><b>${esc(x.email)}</b> <span class="n">${fmt(x.at)}</span><br>CV: ${esc(x.cvId)} · <b>${esc(x.status)}</b> ${esc(x.reason)}<br>${x.hasImg?`<button class="g" data-img="${esc(x.id)}">View screenshot</button>`:''}<button data-ul="${esc(x.uid)}|${esc(x.cvId)}|${esc(x.id)}">Force Unlock</button><div id="i_${esc(x.id)}"></div></div>`).join(''):'Nothing found.'}catch(e){$('lo').textContent=e.message}}
+async function find(){try{const r=await call('admin-cvs',{email:$('fe').value});
+$('fo').innerHTML=r.items.length?r.items.map(c=>`<div class="c"><b>${esc(c.name||'Untitled')}</b> <span class="n">${esc(c.id)}</span> · ${c.isPaid?'✅ Paid':'Unpaid'}<br>${c.isPaid?`<button class="r" data-rv="${esc(r.uid)}|${esc(c.id)}">Revoke</button>`:`<button data-ul="${esc(r.uid)}|${esc(c.id)}|">Force Unlock</button>`}</div>`).join(''):'This user has no CVs.'}catch(e){$('fo').textContent=e.message}}
+document.body.onclick=async e=>{const d=e.target.dataset;try{
+if(d.img){const r=await call('admin-image',{attemptId:d.img});$('i_'+d.img).innerHTML=r.img?`<img src="data:image/jpeg;base64,${esc(r.img)}">`:'No image'}
+if(d.ul){const[uid,cvId,attemptId]=d.ul.split('|');if(!confirm('Unlock this CV?'))return;await call('admin-unlock',{uid,cvId,attemptId});alert('Unlocked');load();if($('fe').value)find()}
+if(d.rv){const[uid,cvId]=d.rv.split('|');if(!confirm('Take back the unlock for this CV?'))return;await call('admin-revoke',{uid,cvId});alert('Revoked');find()}}catch(x){alert(x.message)}};
+$('fb').onclick=find;$('sb').onclick=load;$('lg').onclick=()=>m.signInWithPopup(au,new m.GoogleAuthProvider());
+m.onAuthStateChanged(au,u=>{$('app').style.display=u?'block':'none';$('who').textContent=u?('Signed in: '+u.email):'';if(u)load()});
+</script></body></html>
