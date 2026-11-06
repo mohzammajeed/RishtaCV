@@ -492,30 +492,36 @@ else{c.fillStyle=th.ac;for(let i=0;i<n;i++){const p=VP[i],y=((p.y-p.s*t*.9)%1920
 else if(f=='petal'){for(let i=0;i<26;i++){const p=VP[i],y=(p.y+p.s*t*1.5)%2100-90,x=p.x+Math.sin(t*1.1+p.p)*50;c.save();c.translate(x,y);c.rotate(t*(.6+p.k)+p.p);c.scale(1,.55);c.globalAlpha=.5+.4*p.k;c.fillStyle=p.k>.5?'#e58aa3':'#f3b3c3';c.beginPath();c.ellipse(0,0,p.z*3.2+10,p.z*2+6,0,0,7);c.fill();c.restore()}c.globalAlpha=1}
 else if(f=='blob'){[[200,400,520,'#c09a3e',.24,.5],[900,1000,620,'#2a6b47',.2,.35],[300,1600,560,'#2a6b47',.16,.4]].forEach((b,i)=>{const x=b[0]+Math.sin(t*b[5]+i)*70,y=b[1]+Math.cos(t*b[5]*1.2+i)*70;c.globalAlpha=b[4];c.fillStyle=g2(c,x,y,b[2],b[3]);c.fillRect(0,0,1080,1920)});c.globalAlpha=.14;c.strokeStyle=th.ac;c.lineWidth=3;c.setLineDash([14,18]);c.lineDashOffset=-t*20;c.beginPath();c.arc(880,420,300,0,7);c.stroke();c.beginPath();c.arc(160,1500,220,0,7);c.stroke();c.setLineDash([]);c.globalAlpha=1}}
 function g2(c,x,y,r,col){const g=c.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,col);g.addColorStop(1,col+'00');return g}
-function vhead(c,t,th,A){const a=vo(vpr(t,0,.9)),u=A.u;c.save();c.globalAlpha=a;c.translate(0,(1-a)*-30);c.textAlign='center';c.textBaseline='middle';
-if(A.isl){c.fillStyle=th.ac;c.direction='rtl';c.font="84px 'Noto Nastaliq Urdu',serif";c.fillText('بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ',540,190)}
+function vsp(A,k,w,hh,fn){const K=A.sp||(A.sp={});if(K[k])return K[k];const cv=document.createElement('canvas');cv.width=w;cv.height=hh;const x=cv.getContext('2d');x.textAlign='center';x.textBaseline='middle';fn(x);return K[k]=cv}
+function vhead(c,t,th,A){const a=vo(vpr(t,0,.9)),u=A.u;const S=vsp(A,'h'+th.id,1080,420,c=>{if(A.isl){c.fillStyle=th.ac;c.direction='rtl';c.font="84px 'Noto Nastaliq Urdu',serif";c.fillText('بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ',540,190)}
 c.direction=u?'rtl':'ltr';c.fillStyle=A.isl?th.mu:th.ac;const y=A.isl?292:220;
-if(u){c.font="48px 'Noto Nastaliq Urdu',serif";c.fillText('رشتہ پروفائل',540,y+(A.isl?0:6))}else{c.font=(A.isl?'600 32px':'600 44px')+' Inter,sans-serif';c.letterSpacing='10px';c.fillText('RISHTA PROFILE',540+5,y);c.letterSpacing='0px'}
-const ly=A.isl?352:290,lw=420*vo(vpr(t,.3,1.2));c.strokeStyle=th.ac;c.lineWidth=3;c.globalAlpha=a*.8;c.beginPath();c.moveTo(540-lw/2,ly);c.lineTo(540+lw/2,ly);c.stroke();c.restore()}
-function vfoot(c,t,th){const a=vo(vpr(t,.6,1.4))*(1-vpr(t,8.9,9.2))*.8;if(a<=.01)return;c.save();c.globalAlpha=a;c.fillStyle=th.mu;c.direction='ltr';c.textAlign='center';c.textBaseline='middle';c.font="600 36px 'Playfair Display',serif";c.fillText('☾ RishtaCV',540,1850);c.restore()}
+if(u){c.font="48px 'Noto Nastaliq Urdu',serif";c.fillText('رشتہ پروفائل',540,y+(A.isl?0:6))}else{c.font=(A.isl?'600 32px':'600 44px')+' Inter,sans-serif';c.letterSpacing='10px';c.fillText('RISHTA PROFILE',540+5,y);c.letterSpacing='0px'}});c.save();c.globalAlpha=a;c.translate(0,(1-a)*-30);c.drawImage(S,0,0);const ly=A.isl?352:290,lw=420*vo(vpr(t,.3,1.2));c.strokeStyle=th.ac;c.lineWidth=3;c.globalAlpha=a*.8;c.beginPath();c.moveTo(540-lw/2,ly);c.lineTo(540+lw/2,ly);c.stroke();c.restore()}
+function vfoot(c,t,th,A){const a=vo(vpr(t,.6,1.4))*(1-vpr(t,8.9,9.2))*.8;if(a<=.01)return;const S=vsp(A,'f'+th.id,1080,80,c=>{c.fillStyle=th.mu;c.direction='ltr';c.font="600 36px 'Playfair Display',serif";c.fillText('☾ RishtaCV',540,40)});c.save();c.globalAlpha=a;c.drawImage(S,0,1810);c.restore()}
 function vcurt(c,t,th){const o=vio(vpr(t,1.0,2.5));if(o>=1)return;const w=540;for(const sd of[-1,1]){c.save();const x=sd<0?-w*o:w+w*o,g=c.createLinearGradient(x,0,x+w,0);g.addColorStop(0,'#4a1019');g.addColorStop(.5,'#7d2433');g.addColorStop(1,'#4a1019');c.fillStyle=g;c.fillRect(x,0,w,1920);c.fillStyle='rgba(0,0,0,.2)';for(let i=0;i<8;i++)c.fillRect(x+i*(w/8)+w/16,0,w/16,1920);c.fillStyle=th.ac;c.fillRect(sd<0?x+w-10:x,0,10,1920);c.restore()}}
 function vcard(c,t,th,A){const k=A.card,ar=k.height/k.width,cw=Math.min(880,1240/ar),ch=cw*ar;let a=1,x=0,y=0,s=1,r=0,sx=1;const p=vpr(t,1.2,2.3),e=vo(p),en=th.en;
 if(en=='rise'){a=vcl(p*1.6);y=(1-vb(p))*520;s=.88+.12*vb(p)}else if(en=='curtain'){a=1}else if(en=='zoom'){s=.15+.85*vb(p);r=-.14*(1-e);a=vcl(p*3)}else if(en=='slide'){x=(1-e)*1250;r=.08*(1-e);a=vcl(p*4)}else if(en=='flip'){sx=Math.max(.001,vio(p));a=vcl(p*4);y=-70*(1-p)}else{y=(1-e)*320;r=.1*(1-e);s=.82+.18*e;a=vcl(p*2.5)}
 s*=1+.025*vpr(t,2.3,6.2);y+=Math.sin(t*1.7)*9*vpr(t,2.3,2.8);const eo=vio(vpr(t,6,6.75));if(th.ex=='left')x-=1300*eo;else{a*=1-eo;s*=1-.12*eo;y-=70*eo}if(a<=.01)return;
-c.save();c.globalAlpha=a;c.translate(540+x,1040+y);c.rotate(r);c.scale(s*sx,s);c.shadowColor='rgba(0,0,0,.45)';c.shadowBlur=VS.lite?0:40;c.shadowOffsetY=VS.lite?0:24;c.fillStyle='#fff';vrr(c,-cw/2,-ch/2,cw,ch,26);c.fill();c.shadowColor='transparent';c.shadowBlur=0;c.shadowOffsetY=0;vrr(c,-cw/2,-ch/2,cw,ch,26);c.clip();c.drawImage(k,-cw/2,-ch/2,cw,ch);
-const sh=vpr(t,2.6,3.7);if(sh>0&&sh<1){c.rotate(.35);const q=-cw+sh*cw*2.2,g=c.createLinearGradient(q-140,0,q+140,0);g.addColorStop(0,'rgba(255,255,255,0)');g.addColorStop(.5,'rgba(255,255,255,.38)');g.addColorStop(1,'rgba(255,255,255,0)');c.fillStyle=g;c.fillRect(q-140,-ch,280,ch*2)}c.restore()}
+const S=vsp(A,'card',Math.ceil(cw)+160,Math.ceil(ch)+160,q=>{q.translate(q.canvas.width/2,q.canvas.height/2);q.shadowColor='rgba(0,0,0,.45)';q.shadowBlur=40;q.shadowOffsetY=24;q.fillStyle='#fff';vrr(q,-cw/2,-ch/2,cw,ch,26);q.fill();q.shadowColor='transparent';q.shadowBlur=0;q.shadowOffsetY=0;vrr(q,-cw/2,-ch/2,cw,ch,26);q.clip();q.drawImage(k,-cw/2,-ch/2,cw,ch)});
+c.save();c.globalAlpha=a;c.translate(540+x,1040+y);c.rotate(r);c.scale(s*sx,s);c.drawImage(S,-S.width/2,-S.height/2);
+const sh=vpr(t,2.6,3.7);if(sh>0&&sh<1){vrr(c,-cw/2,-ch/2,cw,ch,26);c.clip();c.rotate(.35);const q=-cw+sh*cw*2.2,g=c.createLinearGradient(q-140,0,q+140,0);g.addColorStop(0,'rgba(255,255,255,0)');g.addColorStop(.5,'rgba(255,255,255,.38)');g.addColorStop(1,'rgba(255,255,255,0)');c.fillStyle=g;c.fillRect(q-140,-ch,280,ch*2)}c.restore()}
 function vfacts(c,t,th,A){const a0=vo(vpr(t,6.4,7))*(1-vpr(t,8.9,9.3));if(a0<=.01)return;const u=A.u;c.save();c.globalAlpha=a0;
-const ps=Math.max(.01,vb(vpr(t,6.4,7.1)));c.save();c.translate(540,560);c.scale(ps,ps);c.beginPath();c.arc(0,0,140,0,7);c.clip();
-if(A.photo){const im=A.photo,s=Math.max(280/im.width,280/im.height);c.drawImage(im,-im.width*s/2,-im.height*s/2,im.width*s,im.height*s)}else{c.fillStyle=th.ac;c.fillRect(-140,-140,280,280);c.fillStyle=th.pt;c.font='700 120px Inter,sans-serif';c.textAlign='center';c.textBaseline='middle';c.direction='ltr';c.fillText((A.name||'?').trim().charAt(0).toUpperCase(),0,6)}c.restore();
-c.save();c.translate(540,560);c.scale(ps,ps);c.lineWidth=10;c.strokeStyle=th.ac;c.beginPath();c.arc(0,0,146,0,7);c.stroke();c.restore();
-c.direction=u?'rtl':'ltr';c.textAlign='center';c.textBaseline='middle';c.fillStyle=th.tx;vset(c,A,'600',72,900,A.name,1);c.fillText(A.name,540,u?806:792);
-if(A.prof){vset(c,A,'600',34,760,A.prof,0);const tw=c.measureText(A.prof).width+80;vrr(c,540-tw/2,862,tw,72,36);c.fillStyle=th.ac;c.fill();c.fillStyle=th.pt;c.fillText(A.prof,540,u?902:898)}
-A.facts.forEach((f,i)=>{const q=vo(vpr(t,6.9+i*.17,7.4+i*.17));if(q<=0)return;const y=990+i*108,dx=(u?1:-1)*120*(1-q);c.save();c.globalAlpha=a0*q;c.translate(dx,0);vrr(c,100,y,880,92,26);c.fillStyle=th.light?'rgba(0,0,0,.05)':'rgba(255,255,255,.09)';c.fill();c.lineWidth=2;c.strokeStyle=th.ac+'66';c.stroke();
-c.textBaseline='middle';const my=y+46+(u?8:0);c.fillStyle=th.mu;vset(c,A,'500',30,300,f[0],0);c.textAlign=u?'right':'left';c.fillText(f[0],u?944:136,my);c.fillStyle=th.tx;vset(c,A,'700',40,520,f[1],0);c.textAlign=u?'left':'right';c.fillText(f[1],u?136:944,my);c.restore()});c.restore()}
-function vout(c,t,th,A){const a=vo(vpr(t,9.1,9.6));if(a<=.01)return;c.save();c.globalAlpha=a;c.translate(540,900);const s=.9+.1*a;c.scale(s,s);c.textAlign='center';c.textBaseline='middle';c.direction='ltr';c.fillStyle=th.ac;c.font="600 130px 'Playfair Display',serif";c.fillText('☾',0,-190);c.fillStyle=th.tx;c.font="600 120px 'Playfair Display',serif";c.fillText('RishtaCV',0,-30);
-c.direction=A.u?'rtl':'ltr';c.fillStyle=th.mu;vset(c,A,'600',58,860,A.name,1);c.fillText(A.name,0,A.u?130:120);if(A.contact){c.fillStyle=th.ac;c.direction='ltr';c.font='600 46px Inter,sans-serif';c.fillText((A.u?'':'Contact: ')+A.contact,0,225)}c.restore()}
+const ps=Math.max(.01,vb(vpr(t,6.4,7.1)));
+const PH=vsp(A,'p'+th.id,312,312,q=>{q.translate(156,156);q.save();q.beginPath();q.arc(0,0,140,0,7);q.clip();
+if(A.photo){const im=A.photo,s=Math.max(280/im.width,280/im.height);q.drawImage(im,-im.width*s/2,-im.height*s/2,im.width*s,im.height*s)}else{q.fillStyle=th.ac;q.fillRect(-140,-140,280,280);q.fillStyle=th.pt;q.font='700 120px Inter,sans-serif';q.direction='ltr';q.fillText((A.name||'?').trim().charAt(0).toUpperCase(),0,6)}q.restore();q.lineWidth=10;q.strokeStyle=th.ac;q.beginPath();q.arc(0,0,146,0,7);q.stroke()});
+c.save();c.translate(540,560);c.scale(ps,ps);c.drawImage(PH,-156,-156);c.restore();
+const NB=vsp(A,'n'+th.id,1080,200,q=>{q.direction=u?'rtl':'ltr';q.fillStyle=th.tx;vset(q,A,'600',72,900,A.name,1);q.fillText(A.name,540,(u?806:792)-740);
+if(A.prof){vset(q,A,'600',34,760,A.prof,0);const tw=q.measureText(A.prof).width+80;vrr(q,540-tw/2,862-740,tw,72,36);q.fillStyle=th.ac;q.fill();q.fillStyle=th.pt;q.fillText(A.prof,540,(u?902:898)-740)}});
+c.drawImage(NB,0,740);
+A.facts.forEach((f,i)=>{const q=vo(vpr(t,6.9+i*.17,7.4+i*.17));if(q<=0)return;const y=990+i*108,dx=(u?1:-1)*120*(1-q);
+const R=vsp(A,'r'+i+th.id,884,96,z=>{z.translate(2,2);vrr(z,0,0,880,92,26);z.fillStyle=th.light?'rgba(0,0,0,.05)':'rgba(255,255,255,.09)';z.fill();z.lineWidth=2;z.strokeStyle=th.ac+'66';z.stroke();
+const my=46+(u?8:0);z.fillStyle=th.mu;vset(z,A,'500',30,300,f[0],0);z.textAlign=u?'right':'left';z.fillText(f[0],u?844:36,my);z.fillStyle=th.tx;vset(z,A,'700',40,520,f[1],0);z.textAlign=u?'left':'right';z.fillText(f[1],u?36:844,my)});
+c.save();c.globalAlpha=a0*q;c.drawImage(R,98+dx,y-2);c.restore()});c.restore()}
+function vout(c,t,th,A){const a=vo(vpr(t,9.1,9.6));if(a<=.01)return;
+const S=vsp(A,'o'+th.id,1080,600,q=>{q.translate(540,320);q.direction='ltr';q.fillStyle=th.ac;q.font="600 130px 'Playfair Display',serif";q.fillText('\u263e',0,-190);q.fillStyle=th.tx;q.font="600 120px 'Playfair Display',serif";q.fillText('RishtaCV',0,-30);
+q.direction=A.u?'rtl':'ltr';q.fillStyle=th.mu;vset(q,A,'600',58,860,A.name,1);q.fillText(A.name,0,A.u?130:120);if(A.contact){q.fillStyle=th.ac;q.direction='ltr';q.font='600 46px Inter,sans-serif';q.fillText((A.u?'':'Contact: ')+A.contact,0,225)}});
+c.save();c.globalAlpha=a;c.translate(540,900);const s=.9+.1*a;c.scale(s,s);c.drawImage(S,-540,-320);c.restore()}
 function vframe(c,W,H,t,A){const th=VT.find(x=>x.id==VS.tpl)||VT[0];c.setTransform(W/1080,0,0,H/1920,0,0);c.globalAlpha=1;c.shadowColor='transparent';c.shadowBlur=0;c.setLineDash([]);
-vbg(c,t,th);if(t<6.8&&A.card)vcard(c,t,th,A);if(th.en=='curtain')vcurt(c,t,th);vhead(c,t,th,A);if(t>6.3)vfacts(c,t,th,A);if(t>9)vout(c,t,th,A);vfoot(c,t,th);if(!A.paid)c.drawImage(vwm(),0,0)}
+vbg(c,t,th);if(t<6.8&&A.card)vcard(c,t,th,A);if(th.en=='curtain')vcurt(c,t,th);vhead(c,t,th,A);if(t>6.3)vfacts(c,t,th,A);if(t>9)vout(c,t,th,A);vfoot(c,t,th,A);if(!A.paid)c.drawImage(vwm(),0,0)}
 function vfactsList(){const u=S.lang=='ur',L2=k=>u?(UL[k]||k):k,V=v=>u?(UV[v]||v):v;return[['Age',S.age],['Height',val('height')],['City',val('city')],['Education',S.edu],['Marital Status',val('marital')],['Monthly Income',val('income')],['Caste',val('caste')],['Maslak',val('maslak')]].filter(x=>x[1]).slice(0,6).map(x=>[L2(x[0]),V(String(x[1]))])}
 function vkey(){return JSON.stringify([paid,S.style,S.lang,S.accent,S.name,S.age,S.edu,S.about,S.expect,S.sib,S.fjob,S.langs,S.contact,S.qr,S.wage,S.wedu,S.wcity,SELK.map(val),S.photo?S.photo.length+S.photo.slice(-30):''])}
 function vimg(src){return new Promise(r=>{if(!src)return r(null);const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=src})}
@@ -533,7 +539,7 @@ function vidRes(){const r=VS.res;if(!r)return'';const stale=r.key!==vkey()+'|'+V
 async function vidShare(){const r=VS.res;if(!r)return;try{const f=new File([r.blob],r.name,{type:r.blob.type});if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'Rishta CV'});return}}catch(e){if(e&&e.name=='AbortError')return}toast(tx('Sharing is not supported here. Use Download.'))}
 function vui(on,t){const b=$('#vgo'),bar=$('#vbar'),st=$('#vst');if(b)b.disabled=on;if(bar){bar.style.display=on?'block':'none';const i=bar.firstChild;if(i)i.style.width=Math.min(100,t*10)+'%'}if(st)st.textContent=on?tx('Recording… keep this page open')+' ('+Math.min(10,Math.floor(t))+'/10s)':''}
 function vmime(a){const L=a?['video/mp4;codecs=avc1.42E01E,mp4a.40.2','video/mp4;codecs=avc1.4d401f,mp4a.40.2','video/mp4;codecs=avc1,mp4a.40.2','video/mp4','video/webm;codecs=vp8,opus','video/webm;codecs=vp9,opus','video/webm']:['video/mp4;codecs=avc1.42E01E','video/mp4;codecs=avc1','video/mp4','video/webm;codecs=vp8','video/webm;codecs=vp9','video/webm'];return L.find(m=>MediaRecorder.isTypeSupported(m))||''}
-function vAudio(ac){const d=ac.createMediaStreamDestination(),m=ac.createGain(),b=ac.currentTime+.1;m.gain.setValueAtTime(0,ac.currentTime);m.gain.linearRampToValueAtTime(.9,b+.6);m.gain.setValueAtTime(.9,b+9);m.gain.linearRampToValueAtTime(0,b+9.9);m.connect(d);
+function vAudio(ac,off){const d=off?ac.destination:ac.createMediaStreamDestination(),m=ac.createGain(),b=ac.currentTime+.1;m.gain.setValueAtTime(0,ac.currentTime);m.gain.linearRampToValueAtTime(.9,b+.6);m.gain.setValueAtTime(.9,b+9);m.gain.linearRampToValueAtTime(0,b+9.9);m.connect(d);
 const tone=(f,s,dur,pk,ty)=>{const o=ac.createOscillator(),g=ac.createGain();o.type=ty;o.frequency.value=f;g.gain.setValueAtTime(0,b+s);g.gain.linearRampToValueAtTime(pk,b+s+.04);g.gain.exponentialRampToValueAtTime(.0001,b+s+dur);o.connect(g);g.connect(m);o.start(b+s);o.stop(b+s+dur+.05)};
 const pad=(fs,s,dur)=>fs.forEach(f=>{const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,b+s);g.gain.linearRampToValueAtTime(.07,b+s+1.2);g.gain.linearRampToValueAtTime(0,b+s+dur);o.connect(g);g.connect(m);o.start(b+s);o.stop(b+s+dur+.05)});
 pad([130.81,196,261.63,329.63],0,5.6);pad([110,164.81,220,261.63],5,5.2);
@@ -565,20 +571,69 @@ else if(t=='tkhd'){const v=buf[d];setD(d,mts,{v,dur:v?d+28:d+20})}
 else if(t=='mdhd'){const v=buf[d],ts=v?u32(d+20):u32(d+12);setD(d,ts,{v,dur:v?d+24:d+16})}
 p=e}};
 walk(0,buf.length);return new Blob([buf],{type:blob.type})}catch(e){return blob}}
-async function vidMake(){if(VS.rec)return;if(typeof MediaRecorder==='undefined'||!HTMLCanvasElement.prototype.captureStream){toast(tx('Video is not supported in this browser. Try Chrome.'));return}
-VS.rec=true;let ac=null;if(VS.music){try{const AC=window.AudioContext||window.webkitAudioContext;ac=new AC();ac.resume&&ac.resume()}catch(e){ac=null}}vui(true,0);
-const A=await vidPrep().catch(()=>null);if(!A||!A.card){VS.rec=false;vui(false);try{ac&&ac.close()}catch(e){}toast(tx('Preview unavailable'));return}
-const W=720,H=1280,cn=document.createElement('canvas');cn.width=W;cn.height=H;VS.cv=cn;const x=cn.getContext('2d'),tpl=VS.tpl;
-const stream=cn.captureStream(30);let dest=null;if(ac){try{dest=vAudio(ac);dest.stream.getAudioTracks().forEach(k=>stream.addTrack(k))}catch(e){dest=null}}
-const mt=vmime(!!dest),opt={videoBitsPerSecond:8e6};if(mt)opt.mimeType=mt;let rec;try{rec=new MediaRecorder(stream,opt)}catch(e){try{rec=new MediaRecorder(stream)}catch(e2){VS.rec=false;VS.cv=null;vui(false);toast(tx('Video is not supported in this browser. Try Chrome.'));return}}
-const ch=[];rec.ondataavailable=e=>{if(e.data&&e.data.size)ch.push(e.data)};const fin=new Promise(r=>rec.onstop=r);
-VS.lite=false;vframe(x,W,H,0,A);rec.start(250);const t0=performance.now();let nf=0,sm=0;
-await new Promise(res=>{const st=()=>{const now=performance.now(),t=(now-t0)/1000;vframe(x,W,H,Math.min(t,10),A);sm+=performance.now()-now;if(++nf==10&&sm/nf>26)VS.lite=true;vui(true,t);if(t>=10){setTimeout(res,350);return}requestAnimationFrame(st)};requestAnimationFrame(st)});
-const dms=Math.round(performance.now()-t0);
-rec.stop();await fin;try{ac&&ac.close()}catch(e){}
-const type=(rec.mimeType||mt||'video/webm').split(';')[0],ext=/mp4/.test(type)?'mp4':'webm';let blob=new Blob(ch,{type});blob=ext=='webm'?await vFixWebm(blob,dms):await vFixMp4(blob,dms);if(VS.res)URL.revokeObjectURL(VS.res.url);
+/* Minimal MP4 writer (H.264 + optional AAC), no external library */
+function vMux(V,Au,W,H,sr){const te=new TextEncoder(),u8=(...a)=>Uint8Array.from(a),n32=v=>u8((v>>>24)&255,(v>>>16)&255,(v>>>8)&255,v&255),n16=v=>u8((v>>8)&255,v&255),z=n=>new Uint8Array(n);
+const cat=a=>{let n=0;for(const x of a)n+=x.length;const o=new Uint8Array(n);let p=0;for(const x of a){o.set(x,p);p+=x.length}return o};
+const bx=(t,...c)=>{const b=cat(c);return cat([n32(b.length+8),te.encode(t),b])},fb=(t,v,f,...c)=>bx(t,u8(v,(f>>16)&255,(f>>8)&255,f&255),...c);
+const MAT=cat([n32(65536),z(12),n32(65536),z(12),n32(1073741824)]);
+const prep=(K,ts)=>{const S=K.samples.slice().sort((a,b)=>a.t-b.t),tk=S.map(x=>Math.round(x.t*ts/1e6)),d=S.map((x,i)=>i<S.length-1?Math.max(1,tk[i+1]-tk[i]):Math.max(1,Math.round((x.dur||(S.length>1?S[i].t-S[i-1].t:33333))*ts/1e6)));return{S,d,dur:d.reduce((a,b)=>a+b,0),size:S.reduce((a,x)=>a+x.d.length,0)}};
+const vts=90000,V2=prep(V,vts),A2=Au?prep(Au,sr):null,mdur=Math.max(Math.round(V2.dur*1000/vts),A2?Math.round(A2.dur*1000/sr):0);
+const trak=(id,P,ts,isV,off,K)=>{const S=P.S;let runs=[];P.d.forEach(x=>{const r=runs[runs.length-1];if(r&&r[1]===x)r[0]++;else runs.push([1,x])});
+const stts=fb('stts',0,0,n32(runs.length),...runs.map(r=>cat([n32(r[0]),n32(r[1])])));
+const stss=isV?fb('stss',0,0,(k=>cat([n32(k.length),...k.map(n32)]))(S.map((x,i)=>x.k?i+1:0).filter(Boolean))):new Uint8Array(0);
+const stsc=fb('stsc',0,0,n32(1),n32(1),n32(S.length),n32(1)),stsz=fb('stsz',0,0,n32(0),n32(S.length),...S.map(x=>n32(x.d.length))),stco=fb('stco',0,0,n32(1),n32(off));
+let entry;if(isV){entry=bx('avc1',z(6),n16(1),z(16),n16(W),n16(H),n32(4718592),n32(4718592),z(4),n16(1),z(32),n16(24),n16(65535),bx('avcC',K.desc))}
+else{const asc=K.desc,dsi=cat([u8(5,asc.length),asc]),dcd=cat([u8(4,13+dsi.length,0x40,0x15,0,0,0),n32(0),n32(128000),dsi]),esd=cat([u8(3,3+dcd.length+3,0,0,0),dcd,u8(6,1,2)]);
+entry=bx('mp4a',z(6),n16(1),z(8),n16(2),n16(16),z(4),n32(ts*65536),fb('esds',0,0,esd))}
+const stbl=bx('stbl',fb('stsd',0,0,n32(1),entry),stts,stss,stsc,stsz,stco);
+const minf=bx('minf',isV?fb('vmhd',0,1,z(8)):fb('smhd',0,0,z(4)),bx('dinf',fb('dref',0,0,n32(1),fb('url ',0,1))),stbl);
+const mdia=bx('mdia',fb('mdhd',0,0,n32(0),n32(0),n32(ts),n32(P.dur),n16(0x55c4),z(2)),fb('hdlr',0,0,z(4),te.encode(isV?'vide':'soun'),z(12),te.encode(isV?'VideoHandler\0':'SoundHandler\0')),minf);
+return bx('trak',fb('tkhd',0,7,n32(0),n32(0),n32(id),z(4),n32(Math.round(P.dur*1000/ts)),z(8),z(4),n16(isV?0:256),z(2),MAT,n32(isV?W*65536:0),n32(isV?H*65536:0)),mdia)};
+const moov=(ov,oa)=>bx('moov',fb('mvhd',0,0,n32(0),n32(0),n32(1000),n32(mdur),n32(65536),n16(256),z(10),MAT,z(24),n32(A2?3:2)),trak(1,V2,vts,true,ov,V),...(A2?[trak(2,A2,sr,false,oa,Au)]:[]));
+const ftyp=bx('ftyp',te.encode('isom'),n32(512),te.encode('isomiso2avc1mp41'));
+const ml=moov(0,0).length,ov=ftyp.length+ml+8,oa=ov+V2.size,mv=moov(ov,oa);
+return new Blob([ftyp,mv,n32(8+V2.size+(A2?A2.size:0)),te.encode('mdat'),...V2.S.map(x=>x.d),...(A2?A2.S.map(x=>x.d):[])],{type:'video/mp4'})}
+const vsleep=ms=>new Promise(r=>setTimeout(r,ms));
+/* Frame-by-frame MP4: every frame is drawn at an exact time and encoded, so it never depends on how fast the device draws. */
+async function vidOffline(A){if(typeof VideoEncoder==='undefined'||typeof VideoFrame==='undefined')return null;
+const W=720,H=1280,cn=document.createElement('canvas');cn.width=W;cn.height=H;const x=cn.getContext('2d');
+let vc=null;for(const codec of['avc1.640028','avc1.4d0028','avc1.420028']){const cfg={codec,width:W,height:H,bitrate:8e6,framerate:30,avc:{format:'avc'}};try{const r=await VideoEncoder.isConfigSupported(cfg);if(r&&r.supported){vc=cfg;break}}catch(e){}}
+if(!vc)return null;
+let t1=performance.now();for(const tt of[3,5,7.5]){vframe(x,W,H,tt,A)}const per=(performance.now()-t1)/3,fps=per>140?15:30;vc.framerate=fps;
+let abuf=null;const sr=44100;
+if(VS.music&&typeof AudioEncoder!=='undefined'&&typeof AudioData!=='undefined'){try{const ok=await AudioEncoder.isConfigSupported({codec:'mp4a.40.2',sampleRate:sr,numberOfChannels:2,bitrate:128000});if(ok&&ok.supported){const OA=window.OfflineAudioContext||window.webkitOfflineAudioContext,oc=new OA(2,Math.ceil(sr*10.3),sr);vAudio(oc,true);abuf=await oc.startRendering()}}catch(e){abuf=null}}
+const V={samples:[],desc:null},Au={samples:[],desc:null},cp=c=>{const d=new Uint8Array(c.byteLength);c.copyTo(d);return d},ds=m=>{const x=m&&m.decoderConfig&&m.decoderConfig.description;return x?(ArrayBuffer.isView(x)?new Uint8Array(x.buffer.slice(x.byteOffset,x.byteOffset+x.byteLength)):new Uint8Array(x.slice(0))):null};
+let err=null;const ve=new VideoEncoder({output:(c,m)=>{if(!V.desc)V.desc=ds(m);V.samples.push({d:cp(c),t:c.timestamp,k:c.type=='key',dur:c.duration||0})},error:e=>{err=e}});ve.configure(vc);
+if(abuf){const ae=new AudioEncoder({output:(c,m)=>{if(!Au.desc)Au.desc=ds(m);Au.samples.push({d:cp(c),t:c.timestamp,k:true,dur:c.duration||0})},error:e=>{err=e}});ae.configure({codec:'mp4a.40.2',sampleRate:sr,numberOfChannels:2,bitrate:128000});
+const L=abuf.getChannelData(0),R=abuf.numberOfChannels>1?abuf.getChannelData(1):L,tot=Math.min(abuf.length,sr*10);
+for(let o=0;o<tot;o+=4096){const n=Math.min(4096,tot-o),d=new Float32Array(n*2);d.set(L.subarray(o,o+n),0);d.set(R.subarray(o,o+n),n);const ad=new AudioData({format:'f32-planar',sampleRate:sr,numberOfFrames:n,numberOfChannels:2,timestamp:Math.round(o/sr*1e6),data:d});ae.encode(ad);ad.close()}
+await ae.flush();ae.close()}
+const N=fps*10;
+for(let i=0;i<N;i++){vframe(x,W,H,i/fps,A);const f=new VideoFrame(cn,{timestamp:Math.round(i*1e6/fps),duration:Math.round(1e6/fps)});ve.encode(f,{keyFrame:i%fps==0});f.close();vui(true,i/fps);
+while(ve.encodeQueueSize>8){await vsleep(4)}if(i%3==0)await vsleep(0);if(err)throw err}
+await ve.flush();ve.close();if(err)throw err;if(!V.desc||!V.samples.length)throw new Error('no video');return vMux(V,abuf&&Au.desc&&Au.samples.length?Au:null,W,H,sr)}
+function vidDone(blob,ext,A,tpl){if(VS.res)URL.revokeObjectURL(VS.res.url);
 VS.res={url:URL.createObjectURL(blob),ext,blob,key:A.key+'|'+tpl,name:'rishta-video-'+((S.name||'profile').trim().replace(/\s+/g,'-'))+'.'+ext};
 VS.rec=false;VS.cv=null;vui(false);const r=$('#vres');if(r){r.innerHTML=vidRes();if(S.lang=='ur')tr()}toast(tx('Video ready'))}
+async function vidMake(){if(VS.rec)return;if(typeof MediaRecorder==='undefined'&&typeof VideoEncoder==='undefined'){toast(tx('Video is not supported in this browser. Try Chrome.'));return}
+VS.rec=true;let ac=null;if(VS.music&&typeof MediaRecorder!=='undefined'){try{const AC=window.AudioContext||window.webkitAudioContext;ac=new AC();ac.resume&&ac.resume()}catch(e){ac=null}}vui(true,0);
+const A=await vidPrep().catch(()=>null);if(!A||!A.card){VS.rec=false;vui(false);try{ac&&ac.close()}catch(e){}toast(tx('Preview unavailable'));return}
+const tpl=VS.tpl;
+let ob=null;try{ob=await vidOffline(A)}catch(e){console.warn('offline video failed',e);ob=null}
+if(ob){try{ac&&ac.close()}catch(e){}vidDone(ob,'mp4',A,tpl);return}
+if(typeof MediaRecorder==='undefined'||!HTMLCanvasElement.prototype.captureStream){VS.rec=false;vui(false);try{ac&&ac.close()}catch(e){}toast(tx('Video is not supported in this browser. Try Chrome.'));return}
+/* fallback: real-time recording */
+const W=720,H=1280,cn=document.createElement('canvas');cn.width=W;cn.height=H;cn.style.cssText='position:fixed;left:-9999px;top:0;width:1px;height:1px;opacity:.01;pointer-events:none';document.body.appendChild(cn);VS.cv=cn;const x=cn.getContext('2d');
+const hasRF=typeof CanvasCaptureMediaStreamTrack!=='undefined'&&CanvasCaptureMediaStreamTrack.prototype&&CanvasCaptureMediaStreamTrack.prototype.requestFrame;
+const stream=cn.captureStream(hasRF?0:30),vt=stream.getVideoTracks()[0],rf=hasRF&&vt?()=>vt.requestFrame():()=>{};let dest=null;if(ac){try{dest=vAudio(ac);dest.stream.getAudioTracks().forEach(k=>stream.addTrack(k))}catch(e){dest=null}}
+const mt=vmime(!!dest),opt={videoBitsPerSecond:8e6};if(mt)opt.mimeType=mt;let rec;try{rec=new MediaRecorder(stream,opt)}catch(e){try{rec=new MediaRecorder(stream)}catch(e2){cn.remove();VS.rec=false;VS.cv=null;vui(false);toast(tx('Video is not supported in this browser. Try Chrome.'));return}}
+const ch=[];rec.ondataavailable=e=>{if(e.data&&e.data.size)ch.push(e.data)};const fin=new Promise(r=>rec.onstop=r);
+vframe(x,W,H,0,A);rf();rec.start(250);const t0=performance.now();
+await new Promise(res=>{const st=()=>{const t=(performance.now()-t0)/1000;vframe(x,W,H,Math.min(t,10),A);rf();vui(true,t);if(t>=10){setTimeout(res,350);return}requestAnimationFrame(st)};requestAnimationFrame(st)});
+const dms=Math.round(performance.now()-t0);rec.stop();await fin;try{ac&&ac.close()}catch(e){}cn.remove();
+const type=(rec.mimeType||mt||'video/webm').split(';')[0],ext=/mp4/.test(type)?'mp4':'webm';let blob=new Blob(ch,{type});blob=ext=='webm'?await vFixWebm(blob,dms):await vFixMp4(blob,dms);
+vidDone(blob,ext,A,tpl)}
+
 Object.assign(UI,{'🎬 10-second video':'🎬 ۱۰ سیکنڈ کی ویڈیو','Turn your CV into a short video for WhatsApp Status, Instagram or TikTok.':'اپنے CV کو WhatsApp اسٹیٹس، انسٹاگرام یا ٹک ٹاک کے لیے مختصر ویڈیو میں بدلیں۔','Templates':'ٹیمپلیٹس','Add soft music':'ہلکی موسیقی شامل کریں','🎬 Create 10-second video':'🎬 ۱۰ سیکنڈ کی ویڈیو بنائیں','Preparing preview…':'پیش نظارہ تیار ہو رہا ہے…','Preview unavailable':'پیش نظارہ دستیاب نہیں','Recording… keep this page open':'ریکارڈنگ جاری ہے… یہ صفحہ کھلا رکھیں','Download video':'ویڈیو ڈاؤن لوڈ کریں','Video ready':'ویڈیو تیار ہے','Video is not supported in this browser. Try Chrome.':'اس براؤزر میں ویڈیو سپورٹ نہیں۔ Chrome استعمال کریں۔','Sharing is not supported here. Use Download.':'یہاں شیئرنگ دستیاب نہیں۔ ڈاؤن لوڈ استعمال کریں۔','HD 720p video, no watermark.':'HD 720p ویڈیو، بغیر واٹر مارک۔','Free video is the same 720p HD quality, but with a watermark. Unlock this CV to remove the watermark.':'مفت ویڈیو بھی وہی 720p HD کوالٹی کی ہوتی ہے مگر واٹر مارک کے ساتھ۔ واٹر مارک ہٹانے کے لیے CV ان لاک کریں۔','Your CV or template changed since this video was made. Create it again to update.':'ویڈیو بننے کے بعد آپ کا CV یا ٹیمپلیٹ بدل گیا ہے۔ اپ ڈیٹ کے لیے دوبارہ بنائیں۔','This browser can only save .webm. For .mp4 (best for WhatsApp), update Chrome or use a recent iPhone.':'یہ براؤزر صرف .webm محفوظ کر سکتا ہے۔ .mp4 (WhatsApp کے لیے بہترین) کے لیے Chrome اپ ڈیٹ کریں یا نیا iPhone استعمال کریں۔','Royal Gold':'شاہی سنہری','Golden Curtain':'سنہری پردہ','Crescent Night':'ہلال رات','Rose Petals':'گلاب پتیاں','Modern Clean':'جدید صاف','Emerald Glow':'زمردی چمک'});
 function enhance(){const a=$('#app');if(!a)return;vidInit();
 const edit=!SHARE&&user&&UID&&view=='edit';$('main').classList.toggle('wide',!!(edit&&step<4));
