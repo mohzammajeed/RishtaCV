@@ -225,6 +225,23 @@ header{flex-wrap:nowrap;gap:8px}
 .chk{display:flex;align-items:center;gap:8px;margin:6px 0 4px;color:var(--tx);font-size:14px}.chk input{width:auto;margin:0;accent-color:var(--g)}
 .vbar{height:8px;border-radius:99px;background:var(--bd);overflow:hidden;display:none;margin-top:12px}.vbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--g2))}
 .vres video{width:min(100%,270px);display:block;margin:14px auto 8px;border-radius:14px;background:#000}
+
+/* Biodata design */
+#card.bio,#lv.bio{background:var(--cb);min-height:792px;padding:26px 26px 18px;color:#4a2a1a;border:0}
+.bio .bt{text-align:center;color:var(--cg);font-size:30px;font-weight:800;letter-spacing:2px;margin:0 0 18px;line-height:1.2}
+.bio .bc{display:flex;gap:22px;align-items:flex-start}
+.bio .bl{width:42%;flex:none}.bio .brr{flex:1;min-width:0}
+.bio .bph{margin-bottom:16px}
+.bio .bph img,.bio .bph div{display:block;width:100%;height:232px;object-fit:cover;border-radius:22px;border:2px solid var(--cg);background:#e8d3b0}
+.bio .bs{margin-bottom:15px}
+.bio .bp{background:var(--cg);color:var(--cb);text-align:center;border-radius:99px;font-size:12px;font-weight:700;padding:5px 10px;margin-bottom:7px;line-height:1.35}
+.bio .br{display:flex;gap:2px;font-size:10.5px;line-height:1.5;margin:3px 2px}
+.bio .br span{width:86px;flex:none}.bio .br i{font-style:normal;width:9px;flex:none}.bio .br b{font-weight:400;flex:1;min-width:0;word-break:break-word}
+.bio .bl .br{font-size:10px}.bio .bl .br span{width:96px;white-space:nowrap}
+.bio .bsum{font-size:10.5px;line-height:1.55;margin:0 2px}
+.bio .bq{display:flex;flex-direction:column;align-items:center;margin-top:6px}.bio .bq .qt{font-size:8.5px;margin-top:3px;color:var(--cm)}
+.bio .bft{text-align:center;font-size:9px;color:var(--cm);margin-top:12px}
+.bio.rtl{direction:rtl}.bio.rtl .bt,.bio.rtl .bp,.bio.rtl .br,.bio.rtl .bsum{font-family:'Noto Nastaliq Urdu',serif;line-height:1.9;letter-spacing:0}
 </style></head><body>
 <a class="skip" href="#app">Skip to content</a>
 <header><div class="logo">☾ Rishta<b>CV</b></div><div class="hr"><button class="alt ib" id="thm" onclick="setTheme(curTheme()=='dark'?'light':'dark')" aria-label="Toggle theme">🌙</button><div id="who"></div></div></header>
@@ -263,14 +280,26 @@ const sel=k=>`<label>${T[k]}</label><select data-k="${k}"><option value="">Selec
 const steps=[
 ()=>`<h2 class="ur">آپ کس قسم کا رشتہ پروفائل بنانا چاہتے ہیں؟</h2><div class="pick">
 <div class="opt ${S.style=='islamic'?'on':''}" onclick="S.style='islamic';draw()"><div class="ur">اسلامی رشتہ پروفائل</div><b>Islamic Rishta Profile</b><br><small>Green + Gold, Bismillah</small></div>
-<div class="opt ${S.style=='pro'?'on':''}" onclick="S.style='pro';draw()"><div class="ur">نارمل پروفیشنل رشتہ پروفائل</div><b>Normal Professional Profile</b><br><small>Modern, clean design</small></div></div><h2 class="ur" style="margin-top:18px">CV کی زبان</h2><div class="pick"><div class="opt ${S.lang!='ur'?'on':''}" onclick="S.lang='en';draw()"><b>English CV</b></div><div class="opt ${S.lang=='ur'?'on':''}" onclick="S.lang='ur';draw()"><div class="ur">اردو CV</div></div></div><h2 style="margin-top:18px">Colour theme</h2><div class="swatches">${Object.keys(ACC).map(k=>`<button type="button" class="sw ${(S.accent||'emerald')==k?'on':''}" style="--c1:${ACC[k].cg};--c2:${ACC[k].ca}" onclick="S.accent='${k}';draw()" aria-label="${ACC[k].n}" title="${ACC[k].n}"></button>`).join('')}</div>`,
+<div class="opt ${S.style=='pro'?'on':''}" onclick="S.style='pro';draw()"><div class="ur">نارمل پروفیشنل رشتہ پروفائل</div><b>Normal Professional Profile</b><br><small>Modern, clean design</small></div>
+<div class="opt ${S.style=='bio'?'on':''}" onclick="S.style='bio';draw()"><div class="ur">بائیو ڈیٹا رشتہ پروفائل</div><b>Biodata Profile</b><br><small>Cream + Maroon, two columns</small></div></div><h2 class="ur" style="margin-top:18px">CV کی زبان</h2><div class="pick"><div class="opt ${S.lang!='ur'?'on':''}" onclick="S.lang='en';draw()"><b>English CV</b></div><div class="opt ${S.lang=='ur'?'on':''}" onclick="S.lang='ur';draw()"><div class="ur">اردو CV</div></div></div><h2 style="margin-top:18px">Colour theme</h2><div class="swatches">${Object.keys(ACC).filter(k=>k!='biodata').map(k=>`<button type="button" class="sw ${(S.accent||'emerald')==k?'on':''}" style="--c1:${ACC[k].cg};--c2:${ACC[k].ca}" onclick="S.accent='${k}';draw()" aria-label="${ACC[k].n}" title="${ACC[k].n}"></button>`).join('')}</div>`,
 ()=>`<h2>Personal Info</h2><div class="grid"><div><label>Full Name</label><input data-k="name" placeholder="Ahmed Khan"></div>${['prof'].map(sel)}
 <div><label>Age</label><input data-k="age" type="number" min="18" max="70"></div><div><label>Education</label><input data-k="edu" placeholder="MBBS / BS CS / MSc…"></div>
 <div>${sel('gender')}</div><div>${sel('height')}</div><div>${sel('city')}</div><div>${sel('marital')}</div></div>`,
 ()=>`<h2>Income / Family Background</h2><div class="grid"><div>${sel('income')}</div><div>${sel('family')}</div><div>${sel('caste')}</div><div>${sel('maslak')}</div><div><label>Siblings</label><input data-k="sib" placeholder="2 brothers, 1 sister"></div><div><label>Father's Occupation</label><input data-k="fjob" placeholder="Retired teacher"></div><div><label>Languages</label><input data-k="langs" placeholder="Urdu, Hindko, English"></div><div><label>WhatsApp number (optional)</label><input data-k="contact" type="tel" inputmode="tel" placeholder="03XX XXXXXXX"></div></div><p class="note" style="margin:2px 0 0">Shown on your CV. Leave empty to keep it private.</p><label>About me (optional, leave empty to auto-write)</label><textarea data-k="about" rows="4"></textarea><label>Looking for (optional)</label><textarea data-k="expect" rows="3"></textarea><div class="grid"><div><label>Preferred age</label><input data-k="wage" placeholder="22-28"></div><div><label>Preferred education</label><input data-k="wedu" placeholder="Graduate"></div><div><label>Preferred city</label><input data-k="wcity" placeholder="Islamabad"></div></div>${expChips()}`,
 ()=>`<h2>Photo</h2><p class="note" style="margin:0 0 8px">Tip: use a clear, front-facing photo with a plain background.</p><input type="file" id="f" accept="image/*"><div class="row"><button class="alt" onclick="rmbg()">🪄 Remove Background (free)</button><button class="alt" onclick="enh()">✨ Enhance Photo</button>${S.photo?'<button class="alt" onclick="S.photo=\'\';draw();saveCV()">Remove photo</button>':''}</div><p class="note" id="pm">Remove Background runs in your browser. Enhance Photo needs the Gemini backend (/api/enhance-photo); in this demo it applies a simple brightness/contrast boost.</p>${S.photo?`<img class="ph" src="${S.photo}">`:''}`,
-()=>`<div class="row" style="margin:0 0 12px"><button class="alt" onclick="S.style=S.style=='pro'?'islamic':'pro';draw()">Switch template</button><button class="alt" onclick="S.lang=S.lang=='ur'?'en':'ur';draw()">اردو / English</button><button onclick="exp('pdf')">⬇ PDF</button><button onclick="exp('jpg')">⬇ JPG</button><button onclick="exp('png')">⬇ PNG</button><button class="alt" onclick="link()">🔗 Private link</button><button class="alt" onclick="shareWA()">📲 Share</button><button class="alt" onclick="window.print()">🖨 Print</button></div>
+()=>`<div class="row" style="margin:0 0 12px"><button class="alt" onclick="S.style={islamic:'pro',pro:'bio',bio:'islamic'}[S.style]||'islamic';draw()">Switch template</button><button class="alt" onclick="S.lang=S.lang=='ur'?'en':'ur';draw()">اردو / English</button><button onclick="exp('pdf')">⬇ PDF</button><button onclick="exp('jpg')">⬇ JPG</button><button onclick="exp('png')">⬇ PNG</button><button class="alt" onclick="link()">🔗 Private link</button><button class="alt" onclick="shareWA()">📲 Share</button><button class="alt" onclick="window.print()">🖨 Print</button></div>
 <div class="row" style="margin:0 0 12px">${paid?'<b>✅ PRO – HD, no watermark</b>':'<button class="gold" onclick="pay()">Pay to unlock this CV · Rs.'+CFG.price+'</button>'}</div><div id="lk" class="note"></div><label style="display:flex;gap:8px;align-items:center;margin:6px 0"><input type="checkbox" style="width:auto;margin:0" ${S.qr===false?'':'checked'} onchange="S.qr=this.checked;sv('rcv_draft',S);autoSave();draw()"><span>Add QR code (opens RishtaCV website)</span></label><p class="note" style="margin:0 0 10px">${S.lang=='ur'?(paid?'HD میموری کوالٹی (پرنٹ کے لیے، تقریباً 300 DPI)':'اسٹینڈرڈ کوالٹی واٹر مارک کے ساتھ۔ HD کے لیے Rs.150 ادا کریں'):(paid?'HD quality, print-ready (about 300 DPI), no watermark':'Standard quality with watermark. Pay Rs.150 for HD.')}</p><div class="scroll">${cardHTML()}</div>${vidPanel()}`];
+
+const bin=(k,l,ph,t)=>`<div><label>${l}</label><input data-k="${k}"${t?` type="${t}"`:''} placeholder="${ph||''}"></div>`;
+const bioS1=()=>`<h2>Personal Details</h2><div class="grid">${bin('name','Full Name','Farhan Siddique')}${bin('dob','Date of Birth','18 April 1994')}${bin('age','Age (if no date of birth)','30','number')}<div>${sel('gender')}</div>${bin('rel','Religion','Islam')}<div>${sel('marital')}</div>${bin('cit','Citizenship','Pakistani')}</div>
+<h2 style="margin-top:16px">Contact Information</h2><div class="grid">${bin('contact','Phone Number','03XX XXXXXXX','tel')}${bin('email','Email','name@email.com','email')}${bin('addr','Address','Islamabad, Pakistan')}</div>
+<h2 style="margin-top:16px">Professional Information</h2><div class="grid">${bin('occ','Occupation','Employed')}<div>${sel('prof')}</div>${bin('org','Organization','Company name')}${bin('ind','Industry','Architecture / Design')}<div>${sel('income')}</div></div>
+<h2 style="margin-top:16px">Educational Background</h2><div class="grid">${bin('elevel','Level','B.Arch / MBBS / BS CS')}${bin('efield','Field','Architecture')}${bin('einst','Institution','University name')}${bin('eyear','Passing Year','2017')}</div>
+<h2 style="margin-top:16px">Personal Attributes</h2><div class="grid"><div>${sel('height')}</div>${bin('weight','Weight','74 Kg')}</div>`;
+const bioS2=()=>`<h2>Family Details</h2><div class="grid">${bin('fname','Father Name','')}${bin('fjob',"Father's Occupation",'Professor')}${bin('mname','Mother Name','')}${bin('mjob',"Mother's Occupation",'Housewife')}${bin('bro','Brothers','2')}${bin('sis','Sisters','1')}<div>${sel('family')}</div></div>
+<h2 style="margin-top:16px">Lifestyle Details</h2><div class="grid">${bin('diet','Diet','Halal')}${bin('langs','Languages','Urdu, English')}<div>${sel('caste')}</div><div>${sel('maslak')}</div></div>
+<label>Summary (optional, leave empty to auto-write)</label><textarea data-k="about" rows="4"></textarea><label>Looking for (optional)</label><textarea data-k="expect" rows="3"></textarea><div class="grid">${bin('wage','Preferred Age','22-28')}${bin('wedu','Preferred Education','Graduate')}${bin('wcity','Preferred City','Islamabad')}</div>${expChips()}`;
+{const o1=steps[1],o2=steps[2];steps[1]=()=>S.style=='bio'?bioS1():o1();steps[2]=()=>S.style=='bio'?bioS2():o2()}
 const tn=['Style','Personal','Family','Photo','Preview'];
 function aboutText(){if(S.about&&S.about.trim())return S.about.trim();const u=S.lang=='ur',g=k=>val(k),V=v=>u?(UV[v]||v):v,n=S.name||'—',pp=g('prof'),i0=g('income'),inc=(!i0||i0=='Not Disclosed')?'':(/^\d/.test(i0)?'Rs. '+i0:i0);
 if(u){const U=[];U.push(`میں ${n} ہوں${S.age?`، میری عمر ${S.age} سال ہے`:''}${g('city')?`، اور میں ${V(g('city'))} سے ہوں`:''}۔`);if(pp)U.push(`میرا پیشہ ${V(pp)} ہے۔`);if(S.edu)U.push(`میری تعلیم ${S.edu} ہے۔`);if(g('marital'))U.push(`میری ازدواجی حیثیت ${V(g('marital'))} ہے۔`);
@@ -310,7 +339,27 @@ return `<div id="card" class="${cl}" style="${accStyle()}"><div class="sd">${PAT
 /*PRO_END*/
 Object.assign(UI,{'Contact Info':'رابطہ معلومات','Looking For':'مطلوبہ رشتہ','Verified by RishtaCV':'RishtaCV سے تصدیق شدہ','Scan to view online':'آن لائن دیکھنے کے لیے اسکین کریں','Scan to visit RishtaCV':'RishtaCV کھولنے کے لیے اسکین کریں',"Pakistan's Trusted Rishta CV Maker":'پاکستان کا قابلِ اعتماد رشتہ CV میکر','Preferred age':'پسندیدہ عمر','Preferred education':'پسندیدہ تعلیم','Preferred city':'پسندیدہ شہر','Add QR code (opens RishtaCV website)':'QR کوڈ شامل کریں (RishtaCV ویب سائٹ کھلے گی)'});
 async function ensureQR(){return;if(S.qr===false||!UID||!CUR||SHARE)return;try{await saveCV(true);const r=await TO(api('share',{cvId:CUR.id}),9000);S.shareUrl=location.origin+'/p/'+r.id;draw();await new Promise(x=>setTimeout(x,300))}catch(e){}}
-function cardHTML(){const[a0,b0]=title(),a=esc(a0),b=esc(b0),u=S.lang=='ur',isl=S.style=='islamic',L2=k=>u?(UL[k]||k):k,V=v=>u?(UV[v]||v):v,
+function bioHTML(){const u=S.lang=='ur',L2=k=>u?(UL[k]||k):k,V=v=>u?(UV[v]||v):v,g=k=>val(k),
+R=(k,v)=>v&&String(v).trim()?`<div class="br"><span>${L2(k)}</span><i>:</i><b>${esc(V(String(v).trim()))}</b></div>`:'',
+SEC=(t,rows)=>rows?`<div class="bs"><div class="bp">${L2(t)}</div>${rows}</div>`:'',
+inc=g('income')=='Not Disclosed'?'':g('income'),
+wm=paid?'':'<div class="wm"><div class="wmi">'+'<span>RishtaCV.vercel.app</span>'.repeat(100)+'</div></div>',
+sib=(S.bro||S.sis)?R('Brother',S.bro)+R('Sister',S.sis):R('Siblings',S.sib),
+exr=S.expect&&S.expect.trim()?`<p class="bsum">${esc(S.expect.trim())}</p>`:'',
+lk=R('Preferred Age',S.wage)+R('Preferred Education',S.wedu)+R('Preferred City',S.wcity)+exr,
+qr=S.qr!==false?'<div class="bq"><img src="'+SITE_QR+'" alt="QR" style="width:76px;height:76px;display:block;image-rendering:pixelated"><div class="qt">'+tx('Scan to visit RishtaCV')+'</div></div>':'';
+return `<div id="card" class="bio${u?' rtl':''}" style="${accStyle()}"><div class="bt">${u?'بائیو ڈیٹا':'BIODATA'}</div><div class="bc"><div class="bl"><div class="bph">${S.photo?`<img src="${esc(S.photo)}">`:'<div></div>'}</div>
+${SEC('Summary',`<p class="bsum">${esc(aboutText())}</p>`)}
+${SEC('Family Details',R('Father Name',S.fname)+R('Father Occupation',S.fjob)+R('Mother Name',S.mname)+R('Mother Occupation',S.mjob)+sib+R('Family Type',g('family')))}
+${SEC('Lifestyle Details',R('Diet',S.diet)+R('Languages',S.langs)+R('Caste',g('caste'))+R('Maslak',g('maslak')))}
+${lk?SEC('Looking For',lk):''}${qr}</div><div class="brr">
+${SEC('Personal Details',R('Name',S.name)+R('Date of Birth',S.dob)+(S.dob?'':R('Age',S.age))+R('Gender',g('gender'))+R('Religion',S.rel)+R('Marital Status',g('marital'))+R('Citizenship',S.cit))}
+${SEC('Contact Information',R('Phone Number',S.contact?'\u2066'+S.contact+'\u2069':'')+R('Email',S.email)+R('Address',S.addr||g('city')))}
+${SEC('Professional Information',R('Occupation',S.occ)+R('Job Title',g('prof'))+R('Organization',S.org)+R('Industry',S.ind)+R('Monthly Income',inc))}
+${SEC('Educational Background',R('Level',S.elevel||S.edu)+R('Field',S.efield)+R('Institution',S.einst)+R('Passing Year',S.eyear))}
+${SEC('Personal Attributes',R('Height',g('height'))+R('Weight',S.weight))}
+</div></div><div class="bft">© RishtaCV · www.rishtacv.vercel.app</div>${wm}</div>`}
+function cardHTML(){if(S.style=='bio')return bioHTML();const[a0,b0]=title(),a=esc(a0),b=esc(b0),u=S.lang=='ur',isl=S.style=='islamic',L2=k=>u?(UL[k]||k):k,V=v=>u?(UV[v]||v):v,
 r=(k,v)=>v?(isl?`<div><small>${L2(k)}</small><b>${esc(V(v))}</b></div>`:`<div class="rw"><span>${L2(k)}</span><b>${esc(V(v))}</b></div>`):'',
 pic=`<div class="pic">${S.photo?`<img src="${esc(S.photo)}">`:'<div></div>'}</div>`,
 P=r('Age',S.age)+r('Gender',val('gender'))+r('Height',val('height'))+r('City',val('city'))+r('Marital Status',val('marital'))+r('Education',S.edu),
@@ -406,12 +455,14 @@ function tr(){const u=S.lang=='ur';document.documentElement.lang=u?'ur':'en';$('
 
 /* ================= RishtaCV upgrade: new features (additive) ================= */
 const ACC={
+biodata:{n:'Biodata',cg:'#5a0e2e',cg2:'#4a0b26',cg3:'#6e1a3c',ca:'#5a0e2e',cb:'#fdebc9',cl:'#e9cfa4',cm:'#8a5a3c',ct:'#fdebc9'},
 emerald:{n:'Emerald',cg:'#1f4d33',cg2:'#16422b',cg3:'#1f5d3b',ca:'#c09a3e',cb:'#fbf7ea',cl:'#eadfb9',cm:'#9a8a55',ct:'#e7c870'},
 royal:{n:'Royal Blue',cg:'#1e3a6e',cg2:'#15295a',cg3:'#274a8a',ca:'#c9a24a',cb:'#f6f8fc',cl:'#d5deef',cm:'#6b7ea3',ct:'#f0d98a'},
 rose:{n:'Rose',cg:'#8a2f4d',cg2:'#6e2139',cg3:'#a23a5c',ca:'#d4a24c',cb:'#fdf5f6',cl:'#f0d4da',cm:'#a87584',ct:'#f6dfa6'},
 maroon:{n:'Maroon',cg:'#6b1f2a',cg2:'#4f141d',cg3:'#8a2a38',ca:'#c09a3e',cb:'#fbf6ee',cl:'#ead9bf',cm:'#9a8055',ct:'#e7c870'},
 teal:{n:'Teal',cg:'#0f4c5c',cg2:'#0a3a47',cg3:'#176a7d',ca:'#e0a458',cb:'#f5faf9',cl:'#cfe4e1',cm:'#6b9a98',ct:'#f3d9a4'}};
-function accStyle(){const a=ACC[S.accent]||ACC.emerald;return `--cg:${a.cg};--cg2:${a.cg2};--cg3:${a.cg3};--ca:${a.ca};--cb:${a.cb};--cl:${a.cl};--cm:${a.cm};--ct:${a.ct}`}
+function accStyle(){const a=ACC[S.accent&&S.accent!='biodata'?S.accent:(S.style=='bio'?'biodata':'emerald')]||ACC.emerald;return `--cg:${a.cg};--cg2:${a.cg2};--cg3:${a.cg3};--ca:${a.ca};--cb:${a.cb};--cl:${a.cl};--cm:${a.cm};--ct:${a.ct}`}
+Object.assign(UL,{'Name':'نام','Date of Birth':'تاریخ پیدائش','Religion':'مذہب','Citizenship':'شہریت','Phone Number':'فون نمبر','Email':'ای میل','Address':'پتہ','Occupation':'پیشہ','Job Title':'عہدہ','Organization':'ادارہ','Industry':'شعبہ','Level':'درجہ','Field':'مضمون','Institution':'ادارہ','Passing Year':'سال تکمیل','Weight':'وزن','Father Name':'والد کا نام','Father Occupation':'والد کا پیشہ','Mother Name':'والدہ کا نام','Mother Occupation':'والدہ کا پیشہ','Brother':'بھائی','Sister':'بہن','Diet':'خوراک','Personal Details':'ذاتی تفصیلات','Contact Information':'رابطہ معلومات','Professional Information':'پیشہ ورانہ معلومات','Educational Background':'تعلیمی پس منظر','Personal Attributes':'ذاتی خصوصیات','Summary':'خلاصہ','Family Details':'خاندانی تفصیلات','Lifestyle Details':'طرزِ زندگی','Looking For':'مطلوبہ رشتہ','Preferred Age':'پسندیدہ عمر','Preferred Education':'پسندیدہ تعلیم','Preferred City':'پسندیدہ شہر'});
 Object.assign(UL,{'Siblings':'بہن بھائی',"Father's Occupation":'والد کا پیشہ','Languages':'زبانیں','Contact':'رابطہ'});
 const EXS={en:['A practicing, educated and kind-hearted partner from a respectable family.','Someone who values family, respects elders and shares Islamic values.','A well-settled, understanding partner with good character.'],
 ur:['دین دار، تعلیم یافتہ اور نیک سیرت رشتہ جو شریف خاندان سے ہو۔','ایسا رشتہ جو خاندان کی قدر کرے، بڑوں کا احترام کرے اور اسلامی اقدار رکھتا ہو۔','برسرِ روزگار، سمجھدار اور اچھے اخلاق والا رشتہ۔']};
@@ -429,7 +480,8 @@ window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank');m.textContent
 /* profile strength */
 const MET=[['name','Name','نام'],['prof','Profession','پیشہ'],['age','Age','عمر'],['edu','Education','تعلیم'],['gender','Gender','جنس'],['height','Height','قد'],['city','City','شہر'],['marital','Marital Status','ازدواجی حیثیت'],['income','Income','آمدنی'],['family','Family Type','خاندانی نظام'],['caste','Caste','ذات'],['maslak','Maslak','مسلک'],['sib','Siblings','بہن بھائی'],['fjob',"Father's Occupation",'والد کا پیشہ'],['expect','Looking for','مطلوبہ رشتہ'],['photo','Photo','تصویر']];
 const SELK=['prof','gender','height','city','marital','income','family','caste','maslak'];
-function metric(){let n=0;const miss=[],u=S.lang=='ur';MET.forEach(([k,e,r])=>{const v=SELK.includes(k)?val(k):S[k];if(v&&String(v).trim())n++;else miss.push(u?r:e)});return{p:Math.round(n*100/MET.length),miss}}
+const METB=[['name','Name','نام'],['dob','Date of Birth','تاریخ پیدائش'],['marital','Marital Status','ازدواجی حیثیت'],['contact','Phone Number','فون نمبر'],['addr','Address','پتہ'],['prof','Job Title','عہدہ'],['elevel','Education Level','درجہ'],['height','Height','قد'],['fname','Father Name','والد کا نام'],['fjob',"Father's Occupation",'والد کا پیشہ'],['expect','Looking for','مطلوبہ رشتہ'],['photo','Photo','تصویر']];
+function metric(){let n=0;const miss=[],u=S.lang=='ur';(S.style=='bio'?METB:MET).forEach(([k,e,r])=>{const v=SELK.includes(k)?val(k):S[k];if(v&&String(v).trim())n++;else miss.push(u?r:e)});return{p:Math.round(n*100/MET.length),miss}}
 function updMeter(){const b=$('#stb');if(!b)return;const m=metric(),u=S.lang=='ur';b.style.width=m.p+'%';$('#stp').textContent=m.p+'%';$('#stt').textContent=m.p==100?(u?'🎉 پروفائل مکمل ہے':'🎉 Your profile is complete'):(u?'شامل کریں: ':'Add: ')+m.miss.slice(0,3).join(u?'، ':', ')}
 function lvUpd(){const s=$('#lvs');if(!s)return;s.innerHTML=cardHTML().replace('id="card"','id="lv"');fit()}
 function fit(){document.querySelectorAll('.scroll').forEach(s=>{s.style.zoom='';const w=s.clientWidth;s.style.zoom=(w&&w<560)?Math.max(.35,(w-2)/560):''})}
@@ -522,8 +574,8 @@ q.direction=A.u?'rtl':'ltr';q.fillStyle=th.mu;vset(q,A,'600',58,860,A.name,1);q.
 c.save();c.globalAlpha=a;c.translate(540,900);const s=.9+.1*a;c.scale(s,s);c.drawImage(S,-540,-320);c.restore()}
 function vframe(c,W,H,t,A){const th=VT.find(x=>x.id==VS.tpl)||VT[0];c.setTransform(W/1080,0,0,H/1920,0,0);c.globalAlpha=1;c.shadowColor='transparent';c.shadowBlur=0;c.setLineDash([]);
 vbg(c,t,th);if(t<6.8&&A.card)vcard(c,t,th,A);if(th.en=='curtain')vcurt(c,t,th);vhead(c,t,th,A);if(t>6.3)vfacts(c,t,th,A);if(t>9)vout(c,t,th,A);vfoot(c,t,th,A);if(!A.paid)c.drawImage(vwm(),0,0)}
-function vfactsList(){const u=S.lang=='ur',L2=k=>u?(UL[k]||k):k,V=v=>u?(UV[v]||v):v;return[['Age',S.age],['Height',val('height')],['City',val('city')],['Education',S.edu],['Marital Status',val('marital')],['Monthly Income',val('income')],['Caste',val('caste')],['Maslak',val('maslak')]].filter(x=>x[1]).slice(0,6).map(x=>[L2(x[0]),V(String(x[1]))])}
-function vkey(){return JSON.stringify([paid,S.style,S.lang,S.accent,S.name,S.age,S.edu,S.about,S.expect,S.sib,S.fjob,S.langs,S.contact,S.qr,S.wage,S.wedu,S.wcity,SELK.map(val),S.photo?S.photo.length+S.photo.slice(-30):''])}
+function vfactsList(){const u=S.lang=='ur',L2=k=>u?(UL[k]||k):k,V=v=>u?(UV[v]||v):v;if(S.style=='bio')return[['Date of Birth',S.dob||''],['Age',S.dob?'':S.age],['Marital Status',val('marital')],['Job Title',val('prof')],['Level',S.elevel||S.edu],['Height',val('height')],['Address',S.addr||val('city')]].filter(x=>x[1]).slice(0,6).map(x=>[L2(x[0]),V(String(x[1]))]);return[['Age',S.age],['Height',val('height')],['City',val('city')],['Education',S.edu],['Marital Status',val('marital')],['Monthly Income',val('income')],['Caste',val('caste')],['Maslak',val('maslak')]].filter(x=>x[1]).slice(0,6).map(x=>[L2(x[0]),V(String(x[1]))])}
+function vkey(){return JSON.stringify([paid,S.style,S.lang,S.accent,S.name,S.age,S.edu,S.about,S.expect,S.sib,S.fjob,S.langs,S.contact,S.qr,['dob','rel','cit','email','addr','occ','org','ind','elevel','efield','einst','eyear','weight','fname','mname','mjob','bro','sis','diet'].map(k=>S[k]),S.wage,S.wedu,S.wcity,SELK.map(val),S.photo?S.photo.length+S.photo.slice(-30):''])}
 function vimg(src){return new Promise(r=>{if(!src)return r(null);const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=src})}
 async function vcardBmp(sc){const el=$('#card');if(!el)return VS.A?VS.A.card:null;const w=document.createElement('div');w.style.cssText='position:fixed;left:-9999px;top:0;width:560px';const c=el.cloneNode(true);c.style.margin='0';w.appendChild(c);document.body.appendChild(w);try{return await html2canvas(c,{scale:sc,backgroundColor:'#ffffff',useCORS:true,logging:false,scrollX:0,scrollY:0,windowWidth:1200})}finally{w.remove()}}
 function vidPrep(){const key=vkey();if(VS.A&&VS.A.key===key)return Promise.resolve(VS.A);if(VS.busy&&VS.busy.key===key)return VS.busy.p;
